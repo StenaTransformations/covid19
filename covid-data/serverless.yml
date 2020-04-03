@@ -1,9 +1,17 @@
 service: covid-data
 
+plugins:
+  - serverless-offline
+
 provider:
   name: aws
   runtime: python3.6
 
 functions:
   hello:
-    handler: handler.hello
+    handler: updater.update
+    events:
+      - http:
+          path: /update
+          method: get
+          cors: true
