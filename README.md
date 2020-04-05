@@ -47,16 +47,10 @@ npm install -g serverless
 
 cd covid-data
 npm install
-virtualenv -p python3 _venv
-source _venv/bin/activate
-pip3 install -r requirements.txt
 sls deploy
 
 cd covid-model
 npm install
-virtualenv -p python3 _venv
-source _venv/bin/activate
-pip3 install -r requirements.txt
 sls deploy && sls s3deploy
 ```
 
