@@ -1,17 +1,62 @@
 service: covid-data
 
+package:
+  exclude:
+    - venv/**
+
 plugins:
+  - serverless-s3-remover
+  - serverless-python-requirements
+  - serverless-iam-roles-per-function
   - serverless-offline
+
+custom:
+  buckets:
+    exports: 'mhr.covid.exports.${self:provider.stage}'
+  files:
+    patientsData: 'patients_data.csv'
+  remover:
+    buckets:
+      - ${self:custom.buckets.exports}
+  pythonRequirements:
+    dockerizePip: non-linux
+    zip: true
+    slim: true
 
 provider:
   name: aws
   runtime: python3.6
+  stage: ${opt:stage, 'dev'}
+  region: eu-north-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: '*'
+  environment:
+    BUCKET_EXPORTS: ${self:custom.buckets.exports}
+    PATIENTS_DATA: ${self:custom.files.patientsData}
 
 functions:
-  hello:
+  update:
     handler: updater.update
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:PutObject
+        Resource: 'arn:aws:s3:::${self:custom.buckets.exports}/*'
     events:
       - http:
           path: /update
           method: get
           cors: true
+
+resources:
+  Resources:
+    CovidBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.buckets.exports}
