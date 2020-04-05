@@ -15,6 +15,7 @@ The main project is the one data scientists usually start working on which consi
 git clone git@github.com:StenaTransformations/covid19.git
 cd covid19
 virtualenv -p python3 _venv
+source _venv/bin/activate
 pip3 install -r requirements.txt
 streamlit run main.py
 ```
