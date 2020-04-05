@@ -8,11 +8,10 @@ plugins:
   - serverless-s3-remover
   - serverless-python-requirements
   - serverless-iam-roles-per-function
-  - serverless-offline
 
 custom:
   buckets:
-    exports: 'mhr.covid.exports.${self:provider.stage}'
+    exports: 'stena.covid.exports.${self:provider.stage}'
   files:
     patientsData: 'patients_data.csv'
   remover:
