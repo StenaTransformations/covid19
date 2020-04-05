@@ -2,7 +2,7 @@ service: covid-data
 
 package:
   exclude:
-    - venv/**
+    - _venv/**
 
 plugins:
   - serverless-s3-remover
