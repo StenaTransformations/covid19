@@ -35,13 +35,6 @@ provider:
         - logs:CreateLogStream
         - logs:PutLogEvents
       Resource: '*'
-    - Effect: Allow
-      Action:
-        - s3:PutBucketNotification
-      Resource:
-        Fn::Join:
-          - ''
-          - - arn:aws:s3:::${self:custom.buckets.exports}
   environment:
     BUCKET_EXPORTS: ${self:custom.buckets.exports}
     PATIENTS_DATA: ${self:custom.files.patientsData}
@@ -57,6 +50,13 @@ functions:
           - s3:PutObject
           - s3:GetObject
         Resource: 'arn:aws:s3:::${self:custom.buckets.exports}/*'
+      - Effect: Allow
+        Action:
+          - s3:PutBucketNotification
+        Resource:
+          Fn::Join:
+            - ''
+            - - arn:aws:s3:::${self:custom.buckets.exports}
     events:
       - existingS3:
           bucket: ${self:custom.buckets.exports}
