@@ -34,7 +34,7 @@ COLS_EXCLUDED = [
 def update(event, context):
   logger.info('-> updating csv file')
   content = requests.get(ENDPOINT_DATA).text
-  df = pd.read_csv(StringIO(content))  
+  df = pd.read_csv(StringIO(content))
   df = df[(df['Country/Region'] == 'Sweden')]
   df = df.drop(COLS_EXCLUDED, axis=1).transpose()
   df['days'] = range(1, len(df) + 1)
