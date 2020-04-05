@@ -1,0 +1,79 @@
+service: covid-model
+
+package:
+  exclude:
+    - _venv/**
+
+plugins:
+  - serverless-plugin-existing-s3
+  - serverless-python-requirements
+  - serverless-iam-roles-per-function
+
+custom:
+  buckets:
+    exports: 'stena.covid.exports.${self:provider.stage}'
+  files:
+    patientsData: 'patients_data.csv'
+    patientsModel: 'patients_model'
+  remover:
+    buckets:
+      - ${self:custom.buckets.exports}
+  pythonRequirements:
+    dockerizePip: non-linux
+    zip: true
+    slim: true
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: ${opt:stage, 'dev'}
+  region: eu-north-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: '*'
+    - Effect: Allow
+      Action:
+        - s3:PutBucketNotification
+      Resource:
+        Fn::Join:
+          - ''
+          - - arn:aws:s3:::${self:custom.buckets.exports}
+  environment:
+    BUCKET_EXPORTS: ${self:custom.buckets.exports}
+    PATIENTS_DATA: ${self:custom.files.patientsData}
+    PATIENTS_MODEL: ${self:custom.files.patientsModel}
+
+functions:
+  create:
+    handler: modeller.create
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:PutObject
+          - s3:GetObject
+        Resource: 'arn:aws:s3:::${self:custom.buckets.exports}/*'
+    events:
+      - existingS3:
+          bucket: ${self:custom.buckets.exports}
+          events:
+            - s3:ObjectCreated:*
+          rules:
+            - suffix: .csv
+  predict:
+    handler: modeller.predict
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:GetObject
+        Resource: 'arn:aws:s3:::${self:custom.buckets.exports}/*'
+    events:
+      - http:
+          path: /predict
+          method: get
+          cors: true
