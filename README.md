@@ -2,8 +2,8 @@
 
 ## Modeling COVID-19 Patients Growth
 
-This repository aims to present a simple serverless application with the intention of utilizing serverless architecture for the benefit of data science in terms of model serving and separation of concerns.
-In order to simulate data-retrieval from external resources, intricacies of Lambda-S3 interactions and model serving, this application purposefully defines two endpoints (functions) as well as an auto-triggered function in separated sub-projects.
+This repository aims to present a simple serverless application with the intention of utilizing serverless architecture for the benefit of data science in terms of model-serving and separation of concerns.
+In order to simulate data-retrieval from external resources, intricacies of Lambda-S3 interactions and model-serving, this application purposefully defines two endpoints (functions) as well as an auto-triggered function in separated sub-projects.
 
 ## Main Project (No Serverless)
 
