@@ -41,6 +41,8 @@ There is model creation function that is automatically triggered when the csv fr
 
 ### Installation
 
+Note: Before proceed, have the docker service running in the background.
+
 ```bash
 # install Serverless globally
 npm install -g serverless
