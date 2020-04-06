@@ -1,5 +1,7 @@
 # COVID-19 Analysis in Serverless
 
+<img src="./architecture.png" width="820" height="820">
+
 ## Modeling COVID-19 Patients Growth
 
 This repository aims to present a simple serverless application with the intention of utilizing serverless architecture for the benefit of data science in terms of model-serving and separation of concerns.
