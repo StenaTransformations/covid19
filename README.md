@@ -1,6 +1,6 @@
 # COVID-19 Analysis in Serverless
 
-<img src="./architecture.png" width="820" height="820" />
+<img src="./arch.png" width="820" height="820" />
 
 ## Modeling COVID-19 Patients Growth
 
