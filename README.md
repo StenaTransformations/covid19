@@ -1,6 +1,6 @@
 # COVID-19 Analysis in Serverless
 
-<img src="./architecture.png" width="820" height="820">
+<img src="./architecture.png" width="820" height="820" />
 
 ## Modeling COVID-19 Patients Growth
 
@@ -60,4 +60,4 @@ sls deploy && sls s3deploy
 
 ### Execution
 
-After deployment, the Serverless framework with log the exosed endpoints. Accordingly, Use a REST-Client or the curl command to create corresponding GET requests for both endpoints. remember to pass 'days' parameter for prediction url ([URL]?days=3)
+After deployment, the Serverless framework with log the exposed endpoints. Accordingly, Use a REST-Client or the curl command to create corresponding GET requests for both endpoints. remember to pass 'days' parameter for prediction url ([URL]?days=3)
